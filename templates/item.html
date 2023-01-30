@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.name }}</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
+</head>
+<body>
+<div class="container" style="text-align: center; padding-top: 30px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <H1>{{ item.name }}</H1>
+            <H2 style="color: greenyellow;">{{ item.description }}</H2>
+            <p>{{ item.date_creation|date:'d. m. Y' }}</p>
+            <br><br>
+            <a href="media/{{ item.file.name }}" download style="color: dodgerblue;">Stáhnout soubor</a>
+            <p>Velikost: {{ item.file.size }}</p>
+            <br>
+            <a href="{% url 'del_file' %}?id={{ item.id }}&name={{ item.name }}&category={{ category }}" style="color: red;">Odstranit</a>
+            <br><br><br>
+            <div class="container" style="position: center; margin-top:20px;margin-left: 10px;">
+                <a class="btn btn-success" href="{% url 'index' %}">
+                    <img src="{% static 'arrow_back_ios-24px.svg' %}" alt="row">Hlavní stránka</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

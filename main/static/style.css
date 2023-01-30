@@ -1,0 +1,11 @@
+@media (prefers-color-scheme: dark) {
+    a, H1, H3, H2, H4, H5, p{
+        color: white;
+    }
+    label{
+        color: black;
+    }
+    body {
+        background-color: black;
+    }
+}

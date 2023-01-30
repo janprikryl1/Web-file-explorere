@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Přihlaste se nejprve</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
+</head>
+<body>
+<!-- Přihlásit se -->
+    <script>
+    $(document).ready(function (event) {
+            $('#register').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+             type:'POST',
+             url:'{% url 'register' %}',
+             data:{
+                 'name':$("#reg_username").val(),
+                 'email': $('#reg_email').val(),
+                 'password': $('#reg_password').val(),
+                 'csrfmiddlewaretoken':'{{ csrf_token }}'
+             },
+             success: function (data) {
+                    if (data.status == "name")
+                 {
+                     alert("Jméno je již používané");
+                     $('#reg_username').css("background", "red");
+                 }
+                 else {
+                     alert("Účet vytvořen");
+                     $("#reg_username").val("");
+                     $('#reg_email').val("");
+                     $('#reg_password').val("");
+                 }
+             },
+             error: function (edata) {
+                 alert("Chyba");
+             }
+         })
+     });
+$('#sign_in').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+             type:'POST',
+             url:'{% url 'sign_in' %}',
+             data:{
+                 'name':$("#name").val(),
+                 'password': $('#password').val(),
+                 'csrfmiddlewaretoken':'{{ csrf_token }}'
+             },
+             success: function (data) {
+                 //alert("Jste přihlášeni");
+                 location.reload();
+             },
+             error: function (edata) {
+                 alert("Chyba");
+             }
+         })
+     });
+});
+    </script>
+    <div class="modal fade" id="sign_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Přihlaste se</h5>
+          </div>
+          <div class="modal-body">
+                <H2 style="color: black;">Přihlašte se, abyste mohli nahrávat</H2>
+              <form id="register">
+                  <input type="text" class="form-control" placeholder="Uživatelské jméno" id="reg_username" required/>
+                  <input type="email" class="form-control" placeholder="Email" id="reg_email" required/>
+                  <input type="password" class="form-control" placeholder="Heslo" id="reg_password" required/>
+                  <button class="btn btn-primary">Registrujte se</button>
+              </form>
+              <br>
+              <p style="text-align: center; color: black">Nebo</p>
+              <br>
+              <form id="sign_in">
+                  <input type="text" class="form-control" placeholder="Uživatelské jméno" id="name" required/>
+                  <input type="password" class="form-control" placeholder="Heslo" id="password" required/>
+                  <button class="btn btn-primary">Přihlásit se</button>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $('#sign_modal').modal({backdrop: 'static', keyboard: false});
+    </script>
+</body>
+</html>
